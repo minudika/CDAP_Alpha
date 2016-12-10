@@ -1,0 +1,43 @@
+
+<div class="row" ng-controller="histogramController as ctrl">
+  <div class="col-md-4">
+    <form ng-submit="submit()"  ng-cloak>
+      <md-input-container >
+        <label>Category</label>
+        <md-select ng-model="model1" ng-disabled="false" ng-change="updateChart('yearsCategory')">
+          <md-option><em>None</em></md-option>
+          <md-option ng-repeat="state in ctrl.states1" ng-value="state.abbrev">
+            {{state.abbrev}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <br>
+
+      <md-input-container >
+        <label>Year</label>
+        <md-select ng-model="model2" ng-disabled="false" ng-change="updateChart('categoriesYear')">
+          <md-option><em>None</em></md-option>
+          <md-option ng-repeat="state in ctrl.states2" ng-value="state.abbrev" >
+            {{state.abbrev}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <p>
+        <span >{{ description }}</span>
+      </p>
+
+    </form>
+
+
+
+
+
+  </div>
+
+  <div class="col-md-8" >
+    <!--<h1>View 2</h1>-->
+      <nvd3 options="options" data="data"></nvd3>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+
+<div class="row" >
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-8" ng-controller="queryController">
+        <form name="colorForm" >
+            <br/>
+            <md-input-container>
+                <label>Query</label>
+                <textarea name="query" ng-model="query" required rows="4" cols="50"></textarea>
+                <br/>
+                <md-button ng-click="executeQuery()" class="md-raised md-primary">Execute</md-button>
+            </md-input-container>
+        </form>
+        <md-input-container>
+            <!--<textarea rows="8" wrap='off' show-tail>-->
+            <textarea name="results"  ng-readonly="true" rows="10" cols="50" show-tail>{{results}}</textarea>
+            <br/>
+        </md-input-container>
+    </div>
+</div>
+
+
+    <!--<div class="col-md-8">
+        <h1>View 1</h1>
+        <md-sidenav md-component-id="left" class="md-sidenav-left">
+        <md-toolbar>
+            &lt;!&ndash;Menu&ndash;&gt;
+        </md-toolbar>
+        &lt;!&ndash;<md-button id="summary" ng-click="getView1()">Summary</md-button><br/>
+        <md-button id="predictions">Predictions</md-button><br/>
+        <md-button id="prescriptions">Prescriptions</md-button><br/>&ndash;&gt;
+        <a href="/#/views/file-upload">Upload File</a><br/>
+        <a href="/#/views/1">Summary</a><br/>
+        <a href="/#/views/2">Predictions</a><br/>
+
+        </md-sidenav>
+    </div>
+</div>-->
+
+<!--<div ng-controller="MyController" layout="column" style="height:500px;" ng-cloak>
+
+    <section layout="row" flex>
+    &lt;!&ndash;<md-button ng-click="openLeftMenu()">
+        Open Left Menu
+    </md-button>&ndash;&gt;
+    <md-sidenav
+            class="md-sidenav-left"
+            md-component-id="left"
+            md-is-locked-open="true"
+            md-whiteframe="4">
+
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Sidenav Left</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+
+            <p hide show-gt-md>
+                This sidenav is locked open on your device. To go back to the default behavior,
+                narrow your display.
+            </p>
+        </md-content>
+
+    </md-sidenav>
+
+
+</div>-->
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/5.4.0/rzslider.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/5.4.0/rzslider.min.js"></script>
