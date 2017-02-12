@@ -1,0 +1,350 @@
+<div class="container">
+<div class="row" ng-controller="MyCtrl">
+        <!--<div ng-controller="MyCtr>-->
+        <md-card>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+                        </br></br>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <!--<md-card-title>-->
+                    <!--<md-card-title-text>-->
+                        <!--<span class="md-headline">Upload Dataset File</span>-->
+
+                    <!--</md-card-title-text>-->
+                    <!--</md-card-title>-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                        <h4>Census Data</h4>
+                            </div>
+                            <div class="col-md-6">
+        <md-button type="file" class="md-raised md-primary" ngf-select="uploadFiles($file, $invalidFiles, 0)"
+                accept="">
+            <!--ngf-max-height="1000"-->
+            <!--ngf-max-size="1MB"-->
+            Select File</md-button></div>
+
+                            </div>
+                        <md-divider></md-divider>
+        <br><br>
+
+
+        <div style="font:smaller">{{f.name}}
+            <!--{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}-->
+            <span class="progress" ng-show="f.progress >= 0">
+          <div style="width:{{f.progress}}%"
+               ng-bind="f.progress + '%'"></div>
+
+      </span>
+            </div>
+                        </br></br>
+
+                        </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Crime Data</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <md-button type="file" class="md-raised md-primary" ngf-select="uploadFiles($file, $invalidFiles, 1)"
+                                           accept="">
+                                    <!--ngf-max-height="1000"-->
+                                    <!--ngf-max-size="1MB"-->
+                                    Select File</md-button></div>
+
+                        </div>
+                        <md-divider></md-divider>
+                        <br><br>
+
+
+                        <div style="font:smaller">{{f1.name}}
+                            <!--{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}-->
+                            <span class="progress" ng-show="f1.progress >= 0">
+          <div style="width:{{f.progress}}%"
+               ng-bind="f1.progress + '%'"></div>
+
+      </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Tract Data</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <md-button type="file" class="md-raised md-primary" ngf-select="uploadFiles($file, $invalidFiles, 2)"
+                                           accept="">
+                                    <!--ngf-max-height="1000"-->
+                                    <!--ngf-max-size="1MB"-->
+                                    Select File</md-button></div>
+
+                        </div>
+                        <md-divider></md-divider>
+                        <br><br>
+
+
+                        <div style="font:smaller">{{f2.name}}
+                            <!--{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}-->
+                            <span class="progress" ng-show="f2.progress >= 0">
+          <div style="width:{{f.progress}}%"
+               ng-bind="f2.progress + '%'"></div>
+
+      </span>
+                        </div>
+                    </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+</div>
+    </div>
+<div class="container">
+<div class="row" ng-controller="MyCtrl">
+    <md-content>
+        <md-tabs md-dynamic-height="" md-border-bottom="">
+            <md-tab label="Census Data">
+                <md-content class="md-padding">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="md-display-1">Select Census Data File</h3>
+                            </div>
+                        <div class="col-md-6">
+                            <md-button class="md-raised md-primary" ng-click="updateLists()">Refresh List</md-button>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                    <md-radio-group ng-model="censusData.files">
+                        <div class="row" ng-repeat="item in files1">
+                            <div class="col-md-10">
+                        <md-radio-button  value="item" class="md-primary">{{item}}</md-radio-button>
+                                </div>
+                            <div class="col-md-2">
+                        <md-button class="md-icon-button md-primary" aria-label="Settings" ng-disabled="censusData.files == item" ng-click="deleteFiles(item, 0)">
+                            <md-icon md-svg-icon="/resources/svg/delete.svg"></md-icon>
+                        </md-button>
+                                </div>
+                        </div>
+                    </md-radio-group>
+                            </div>
+                        <div class="col-md-8" ng-if="showCensusColumns == true">
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">Configure Required Columns</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <div class="row">
+                                    <md-input-container class="md-block" flex-gt-sm="">
+                                        <label>Enter Table Name</label>
+                                        <input ng-model="tablename.value">
+                                    </md-input-container>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Population</label>
+                                                <md-select name="type" title="Column for Population" ng-model="columnPopulation.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <md-input-container>
+                                            <label>Column for Latitude</label>
+                                            <md-select name="type" title="Column for Latitude" ng-model="columnLat.value" required="">
+                                                <md-option ng-value="column" ng-repeat="column in availableColumns">{{column}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Longitude</label>
+                                                <md-select name="type" title="Column for Longitude" ng-model="columnLong.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                        <md-button type="submit" ng-click="setCensusColumns()">Submit</md-button>
+                                        </div>
+                                    </div>
+                                </md-card-content>
+                                </md-card>
+                            </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Crime Data">
+                <md-content class="md-padding">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="md-display-1">Select Crime Data File</h3>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="container" layout="row" layout-align="end center" ng-class="{'visible' : !vm.activated}">
+                                <!--<md-progress-linear md-mode="query" ng-disabled="!vm.showList[1]"></md-progress-linear>-->
+                                <md-progress-circular md-mode="indeterminate" ng-show="isCrimeFileLoading"></md-progress-circular>
+
+                        </div>
+                            </div>
+                        <div class="col-md-4">
+                            <md-button class="md-raised md-primary" ng-click="updateLists()">Refresh List</md-button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <md-radio-group ng-model="crimeData.files">
+                                <div class="row" ng-repeat="item in files2">
+                                    <div class="col-md-10">
+                                        <md-radio-button value="{{item}}" class="md-primary">{{item}}</md-radio-button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <md-button class="md-icon-button md-primary" aria-label="Settings" ng-disabled="crimeData.files == item" ng-click="deleteFiles(item, 1)">
+                                            <md-icon md-svg-icon="/resources/svg/delete.svg"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </md-radio-group>
+                        </div>
+                        <div class="col-md-8" ng-if="showCrimeColumns == true">
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">Configure Required Columns</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <form name="projectForm">
+                                    <div class="row">
+                                        <md-input-container class="md-block" flex-gt-sm="">
+                                            <label>Enter Table Name</label>
+                                            <input title="Table Name" ng-model="crimeTableName.value">
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Dates</label>
+                                                <md-select name="type" title="Column for Dates" ng-model="crimeColumnDates.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Category</label>
+                                                <md-select name="type" title="Column for Category" ng-model="crimeColumnCat.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Day of Week</label>
+                                                <md-select name="type" ng-model="crimeColumnWeek.value" required="">
+                                                    <md-option ng-value="column" title="Column for Day of Week" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Police Districts</label>
+                                                <md-select name="type" title="Column for Police Districts" ng-model="crimeColumnPd.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!--<md-button type="submit">Submit</md-button>-->
+                                            <md-input-container>
+                                                <label>Column for Resolution</label>
+                                                <md-select name="type" title="Column for Resolution" ng-model="crimeColumnResolution.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Latitude</label>
+                                                <md-select name="type" title="Column for Latitude" ng-model="crimeColumnLat.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <md-input-container>
+                                                <label>Column for Longitude</label>
+                                                <md-select name="type" title="Column for Longitude" ng-model="crimeColumnLon.value" required="">
+                                                    <md-option ng-value="column" ng-repeat="column in availableCrimeColumns">{{column}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="container" layout="row" layout-align="end center" ng-class="{'visible' : !vm.activated}">
+                                                <!--<md-progress-linear md-mode="query" ng-disabled="!vm.showList[1]"></md-progress-linear>-->
+                                                <md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+                                                <div class="bottom-block">
+                                                    <span ng-if="isLoading">Configuring.. Please wait..</span>
+                                                    <span ng-if="isPrepCompleted">Configuring completed</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <md-button type="submit" ng-click="setCrimeColumns()">Submit</md-button>
+                                        </div>
+                                    </div>
+                                        </form>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Tract Data">
+                <md-content class="md-padding">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="md-display-1">Select Tract Data File</h3>
+                        </div>
+                        <div class="col-md-6">
+                            <md-button class="md-raised md-primary" ng-click="updateLists()">Refresh List</md-button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <md-radio-group ng-model="tractData.files">
+                                <div class="row" ng-repeat="item in files3">
+                                    <div class="col-md-10">
+                                        <md-radio-button value="item" class="md-primary">{{item}}</md-radio-button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <md-button class="md-icon-button md-primary" aria-label="Settings" ng-disabled="tractData.files == item" ng-click="deleteFiles(item, 2)">
+                                            <md-icon md-svg-icon="/resources/svg/delete.svg"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </md-radio-group>
+                        </div>
+                        <div class="col-md-8">
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+
+</div>
+</div>

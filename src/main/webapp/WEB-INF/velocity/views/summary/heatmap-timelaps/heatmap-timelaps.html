@@ -1,0 +1,20 @@
+<md-card>
+    <md-card-content>
+        <!--<div layout="row" layout-align="start center">-->
+
+        <!--<md-button class="md-fab md-mini md-primary" aria-label="Use Android">-->
+            <!--<md-icon md-svg-src="img/icons/android.svg" style="color: greenyellow;"></md-icon>-->
+        <!--</md-button>-->
+            <div ng-controller="TimeLapseController as vm">
+        <rzslider rz-slider-model="vm.slider.min" rz-slider-high="vm.slider.max" rz-slider-options="vm.slider.options"></rzslider>
+                {{vm.slider.value}}
+            </div>
+        <div ng-controller="TimeLapseController as vm" layout="row" layout-align="end start">
+            Aggregate: <input type="checkbox" id="aggregateCheck">
+            <button ng-click="play()">Play</button>
+        </div>
+        <!--</div>-->
+        </md-card-content>
+    </md-card>
+
+<div id="map"></div>

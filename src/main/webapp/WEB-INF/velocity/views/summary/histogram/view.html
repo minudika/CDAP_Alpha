@@ -1,0 +1,65 @@
+
+<div class="row" ng-controller="histogramController as ctrl">
+
+  <div class="col-md-">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Histogram</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+    <form ng-submit="submit()"  ng-cloak>
+
+        <md-radio-group ng-model="data.group1">
+          </br></br>
+          <div class="row">
+            <div class="col-md-6">
+              <md-radio-button value="Year" class="md-primary">Year wise</md-radio-button>
+            </div>
+            <div class="col-md-6">
+              <md-radio-button value="Category">Category Wise</md-radio-button>
+            </div>
+          </div>
+
+
+
+        </md-radio-group>
+        <div ng-if="data.group1 == 'Category'">
+        <md-input-container >
+        <label>Category</label>
+        <md-select ng-model="model1.value" ng-disabled="false" ng-change="updateChart('yearsCategory')">
+          <md-option><em>None</em></md-option>
+          <md-option ng-repeat="state in ctrl.states1" ng-value="state.abbrev">
+            {{state.abbrev}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+        </div>
+      <br>
+      <div ng-if="data.group1 == 'Year'">
+      <md-input-container >
+        <label>Year</label>
+        <!--<md-select ng-model="model2.value" ng-disabled="false" ng-change="updateChart('categoriesYear')">-->
+        <md-select ng-model="model2.value" ng-disabled="false" ng-change="updateChartForDateRange()">
+          <md-option><em>None</em></md-option>
+          <md-option ng-repeat="state in ctrl.states2" ng-value="state.abbrev" >
+            {{state.abbrev}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      </div>
+      <p>
+        <span >{{ description }}</span>
+      </p>
+
+    </form>
+  </md-card-content>
+      </md-card>
+  </div>
+
+  <div class="col-md-8" >
+    <!--<h1>View 2</h1>-->
+      <nvd3 options="options" data="data"></nvd3>
+  </div>
+</div>

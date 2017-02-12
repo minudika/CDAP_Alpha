@@ -1,0 +1,47 @@
+<div class="row" ng-controller="fileuploadController">
+
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <md-card>
+            <md-card-content>
+                <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">Preprocess Data</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <br>
+                <div layout="row" layout-align="start start">
+                <div><label>Table Name for Preprocessed Dataset</label></div>
+                    <div>
+                    <md-input-container>
+                    <label>Table name</label>
+                    <input ng-model="tableName">
+                </md-input-container>
+                    </div>
+                </div>
+                <p>
+                    <!--Selected file : {{fileName}}
+                    <br>
+                    Table Name : {{tableName}}
+                    <br>-->
+                <div layout="row" layout-align="end center">
+                    <md-button class="md-raised md-primary" ng-click="submitFile()">Submit</md-button>
+
+                <div class="container" ng-class="{'visible' : !vm.activated}">
+                    <!--<md-progress-linear md-mode="query" ng-disabled="!vm.showList[1]"></md-progress-linear>-->
+                    <md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+                    <div class="bottom-block">
+                        <span ng-if="!isFileAvailable">No data set available!</span>
+                        <span ng-if="isLoading">Processing.. Please wait..</span>
+                        <span ng-if="isPrepCompleted">Preprocessing completed</span>
+                    </div>
+                </div>
+                </div>
+
+            </md-card-content>
+        </md-card>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>

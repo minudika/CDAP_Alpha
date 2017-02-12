@@ -1,0 +1,36 @@
+<div ng-controller="BeatsController">
+
+<div layout="row" layout-align="center">
+    <div>
+        <input type="text" value="District ID" id="districtID" name="districtID" onfocus="if (this.value == 'District ID') this.value=''">
+        <select id="seasons">
+            <option value="0">Season</option>
+            <option value="1">January -March</option>
+            <option value="2">April -  June</option>
+            <option value="3">July - September</option>
+            <option value="4">October - December</option>
+        </select>
+        <select id="watch">
+            <option value="10">Watch</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+        <input type="checkbox" id="weekdays" name="weekdays" value="false"> Weekdays</input>
+        <input type="checkbox" id="weekend" name="weekend" value="false"> Weekends </input>
+        <input type="text" value="Number of beats" id="nBeats" name="nbeats" onfocus="if (this.value == 'Number of beats') this.value=''">
+
+        <button ng-click="submitBeatsParams()">Submit</button>
+    </div>
+
+</div>
+</div>
+
+<!--<div id="map"></div>-->
+<div id="map1" style="top: 10px; left: 25px; width:1200px; height:780px; float: left"></div>
+
+
+
+<script src="/resources/js/controller/BoundaryController.js"></script>

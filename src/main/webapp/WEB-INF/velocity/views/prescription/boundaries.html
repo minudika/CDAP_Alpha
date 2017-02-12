@@ -1,0 +1,31 @@
+<div ng-controller="BoundaryController">
+
+
+<div layout="row" layout-align="center" >
+    <div id="params1">
+        <input type="text" value="Number of districts" id="nDistricts" name="ndistricts" onfocus="if (this.value == 'Number of districts') this.value=''">
+        <input type="text" value="Total Population" id="population" name="population" onfocus="if (this.value == 'Total Population') this.value=''">
+
+        <button ng-click="submitBoundaryMapParams()">Draw District Boundaries</button>
+        <a href="/#/views/beats">Draw patrol beats</a>
+    </div>
+
+    <br>
+</div>
+
+    <!--<div layout="row" layout-align="center" >
+        <div id="params2">
+            <input type="text" value="District ID" id="districtID" name="districtID" onfocus="if (this.value == 'District ID') this.value=''">
+            <button ng-click="submitDistrictID()">Get Patrol Beats</button>
+        </div>
+    </div>-->
+</div>
+
+<!--<div id="map"></div>-->
+<!--<div id="map"></div>-->
+<div id="map1" style="top: 10px; left: 10px; width:700px; height:720px; float:left"></div>
+<div id="map2" style="top: 10px; left: 20px; width:700px; height:720px"></div>
+
+
+
+<script src="/resources/js/controller/BoundaryController.js"></script>

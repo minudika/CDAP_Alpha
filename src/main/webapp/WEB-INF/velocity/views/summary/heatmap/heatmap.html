@@ -1,0 +1,82 @@
+
+
+    <div ng-controller="mapController as ctrl">
+        <form ng-submit="submit()"  ng-cloak>
+           <!-- <md-input-container >
+                <label>Category</label>
+                <md-select ng-model="ctrl.userState1" ng-disabled="false" ng-change="initialize()">
+                    <md-option><em>None</em></md-option>
+                    <md-option ng-repeat="state in ctrl.states1" ng-value="state.abbrev">
+                        {{state.abbrev}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <br>
+
+            <md-input-container >
+                <label>Year</label>
+                <md-select ng-model="ctrl.userState2" ng-disabled="false" ng-change="initialize()">
+                    <md-option><em>None</em></md-option>
+                    <md-option ng-repeat="state in ctrl.states2" ng-value="state.abbrev" >
+                        {{state.abbrev}}
+                    </md-option>
+                </md-select>
+            </md-input-container>-->
+
+            <!--<p>
+                <span >{{ description }}</span>
+            </p>-->
+            <md-card>
+                <md-card-content>
+            <div ng-repeat="cat in categoryList" style="float:left">
+            <md-checkbox aria-label="Checkbox 1" ng-model="listModel[categoryList.indexOf(cat)]"  ng-change="initialize(categoryList.indexOf(cat))">
+                {{cat}} <!--{{ data.fraud }}-->
+            </md-checkbox>
+            </div>
+                </md-card-content>
+            </md-card>
+            <!--<md-checkbox ng-model="data.burglary" aria-label="Checkbox 1" ng-change="initialize(1)">-->
+                <!--Vandalism &lt;!&ndash;{{ data.burglary }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+            <!--<md-checkbox ng-model="data.robbery" aria-label="Checkbox 1" ng-change="initialize(2)">-->
+                <!--Larceny / Theft &lt;!&ndash;{{ data.robbery }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+            <!--<md-checkbox ng-model="data.kidnapping" aria-label="Checkbox 1" ng-change="initialize(3)">-->
+                <!--Vehicle Theft &lt;!&ndash;{{ data.kidnapping }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+            <!--<md-checkbox ng-model="data.suicide" aria-label="Checkbox 1" ng-change="initialize(4)">-->
+                <!--Robbery&lt;!&ndash; {{ data.suicide }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+            <!--<md-checkbox ng-model="data.theft" aria-label="Checkbox 1" ng-change="initialize(5)">-->
+                <!--Assault&lt;!&ndash; {{ data.theft }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+            <!--<md-checkbox ng-model="data.otherOffenses" aria-label="Checkbox 1" ng-change="initialize(6)">-->
+                <!--Other Offenses&lt;!&ndash; {{ data.otherOffenses }}&ndash;&gt;-->
+            <!--</md-checkbox>-->
+        </form>
+    </div>
+
+    <!--<div  class="col-md-8" >
+        &lt;!&ndash;<form name="colorForm" >
+            <br/>
+            <md-input-container>
+                <label>Query</label>
+                <textarea name="query" ng-model="query" required rows="4" cols="50"></textarea>
+                <br/>
+                <md-button ng-click="executeQuery()" class="md-raised md-primary">Execute</md-button>
+            </md-input-container>
+        </form>&ndash;&gt;
+        &lt;!&ndash;<md-input-container>
+            <md-button ng-click="initialize()" class="md-raised md-primary">Execute</md-button>
+        </md-input-container>&ndash;&gt;
+        &lt;!&ndash;<div id="map"></div>&ndash;&gt;
+    </div>-->
+</div>
+
+<div id="map"></div>
+
+
+
+
+<script src="/resources/data/heatmap-locations.js"></script>
