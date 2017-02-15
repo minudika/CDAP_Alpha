@@ -5,6 +5,7 @@ var coordinates = [];
 var coordinates2 = [];
 var coordinates3 = [];
 var coordinates4 = [];
+var coordinates_boundaryPopulation = [];
 app.controller('histogramController',['$scope','$http',function($scope,$http){
 
     $scope.model1 = {'value':""};
@@ -163,6 +164,50 @@ app.controller('histogramController',['$scope','$http',function($scope,$http){
 
 }]);
 
+//histpgram for police district populations
+app.controller('histogramController_boundaryPopulation',['$scope','$http',function($scope,$http){
+
+    $scope.options = {};
+    $scope.data = [];
+    $scope.options2 = {};
+    $scope.data2 = [];
+    $scope.options3 = {};
+    $scope.data3 = [];
+    $scope.options4 = {};
+    $scope.data4 = [];
+    $scope.description="";
+
+
+    $http({
+        method: 'POST',
+        url: '/prescription/getHistogram_clusterPopulation',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(data){
+        $scope.res1 = JSON.parse(JSON.stringify(data));
+        coordinates_boundaryPopulation = $scope.res1;
+        $scope.options = getChartOptions("Police District");
+        $scope.data = getChartData();
+
+        console.log("update clicked");
+    });
+
+    $scope.updateChart = function(){
+
+
+    }
+
+
+    $scope.initialOperation = function(){
+        if($scope.isDatasetAvailable){
+
+        }
+        else{
+
+        }
+    }
+
+}]);
+
 app.controller('histogramController_beats',['$scope','$http',function($scope,$http){
 
     $scope.options = {};
@@ -254,10 +299,10 @@ function  getChartOptions(id){
 
 function getChartData(){
     var result = [];
-    for (var i = 0; i < coordinates.length; i++) {
+    for (var i = 0; i < coordinates_boundaryPopulation.length; i++) {
         result.push({
-            label: coordinates[i]['label'],
-            value: coordinates[i]['frquncy']
+            label: coordinates_boundaryPopulation[i]['label'],
+            value: coordinates_boundaryPopulation[i]['frquncy']
         });
     }
     return [{

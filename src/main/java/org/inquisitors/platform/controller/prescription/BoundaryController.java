@@ -7,6 +7,7 @@ import org.abithana.prescription.beans.CensusBlock;
 import org.abithana.prescription.impl.Redistricting.CensusTract;
 import org.abithana.prescription.impl.Redistricting.Cluster;
 import org.abithana.prescription.impl.patrolBeats.ClusterPatrol;
+import org.abithana.statBeans.HistogramBean;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,12 +21,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by minudika on 11/27/16.
  */
 @Controller
 public class BoundaryController {
+    List<HistogramBean> clusterPopulationList;
     Vizualizer_prescription vp;
     Gson gson = new Gson();
     @ResponseBody
@@ -40,6 +43,12 @@ public class BoundaryController {
         return getOriginalBoundaryCoordinates(season,weekdays,weekend,watch,nBeats,Long.parseLong(districtID));
     }
 
+    @ResponseBody
+    @RequestMapping(value="/prescription/getHistogram_clusterPopulation",method = RequestMethod.POST)
+    public String getHistogram_clusterPopulation(){
+        return gson.toJson(clusterPopulationList);
+    }
+
     private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
         vp = new Vizualizer_prescription();
         HashMap map = vp.getRedistrictBoundry(nDistricts,population);
@@ -47,6 +56,7 @@ public class BoundaryController {
 
         //JSONObject jsonMap = new JSONObject();
         JSONArray jsonMap = new JSONArray();
+        clusterPopulationList = new ArrayList<HistogramBean>();
 
         int x=0;
         int districtCnt = 0;
@@ -56,8 +66,11 @@ public class BoundaryController {
             JSONArray jsonCluster = new JSONArray();
             long key = (long) i.next();
             //ArrayList list = (ArrayList) map.get(key);
-            HashSet censusTractMap = (HashSet) ((Cluster)map.get(key)).cencusTracts;
-            Long clusterID = ((Cluster)map.get(key)).getClusterId();
+            Cluster cluster = ((Cluster)map.get(key));
+            HashSet censusTractMap = (HashSet) cluster.cencusTracts;
+            Long clusterID = cluster.getClusterId();
+            HistogramBean hBean = new HistogramBean(Long.toString(clusterID),cluster.getPopulation());
+            clusterPopulationList.add(hBean);
             Iterator tractIterator = censusTractMap.iterator();
 
             int cnt =0 ;
