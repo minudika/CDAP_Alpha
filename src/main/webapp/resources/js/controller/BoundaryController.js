@@ -28,15 +28,35 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
     }).success(function(result){
       $scope.message  = "";
       var id=0;
-      for(var j=0;j<result["myArrayList"].length;j=j+2){
+      for(var j=0;j<result["myArrayList"].length;j=j+3){
         //var color = getRandomColor(id);
         color = colors[id];
         id++;
-        var clusterID = result["myArrayList"][j+1];
-        for(var k=0;k<result["myArrayList"][j]["myArrayList"].length;k++){
+        var clusterID = result["myArrayList"][j+2];
+        var latTmp1 = result["myArrayList"][j]["map"]["lat"];
+        var lngTmp1 = result["myArrayList"][j]["map"]["lng"];
 
-          var latTmp =  result["myArrayList"][j]["myArrayList"][k]["map"][0]["myArrayList"];
-          var lngTmp =  result["myArrayList"][j]["myArrayList"][k]["map"][1]["myArrayList"];
+        var polygonCoordinates1 = [];
+
+        for(var i=0;i<latTmp1.length;i++){
+          polygonCoordinates1.push({lat:latTmp1[i],lng:lngTmp1[i]});
+        }
+
+        var polygon = new google.maps.Polygon({
+          paths: polygonCoordinates1,
+          strokeColor: color,
+          strokeOpacity: 0,
+          strokeWeight: 3,
+          fillColor: color,
+          fillOpacity: 0,
+          label:'sdfsdf',
+        });
+        polygon.setMap(map);
+
+        for(var k=0;k<result["myArrayList"][j+1]["myArrayList"].length;k++){
+
+          var latTmp =  result["myArrayList"][j+1]["myArrayList"][k]["map"][0]["myArrayList"];
+          var lngTmp =  result["myArrayList"][j+1]["myArrayList"][k]["map"][1]["myArrayList"];
 
           var polygonCoordinates = [];
 

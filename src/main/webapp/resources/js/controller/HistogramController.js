@@ -1,7 +1,10 @@
 /**
  * Created by minudika on 11/19/16.
  */
-
+var coordinates = [];
+var coordinates2 = [];
+var coordinates3 = [];
+var coordinates4 = [];
 app.controller('histogramController',['$scope','$http',function($scope,$http){
 
     $scope.model1 = {'value':""};
@@ -164,18 +167,39 @@ app.controller('histogramController_beats',['$scope','$http',function($scope,$ht
 
     $scope.options = {};
     $scope.data = [];
+    $scope.options2 = {};
+    $scope.data2 = [];
+    $scope.options3 = {};
+    $scope.data3 = [];
+    $scope.options4 = {};
+    $scope.data4 = [];
     $scope.description="";
 
+
+//data for histogram 1
     $http({
         method: 'POST',
-        url: 'prescription/getHistogramResultsForBeats',
+        url: '/prescription/getHistogramResultsForBeats',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data){
-        $scope.res = JSON.parse(JSON.stringify(data));
-        coordinates = $scope.res;
+        $scope.res1 = JSON.parse(JSON.stringify(data));
+        coordinates = $scope.res1;
         $scope.options = getChartOptions("Days");
         $scope.data = getChartData();
 
+        console.log("update clicked");
+    });
+
+    //data for histogram2
+    $http({
+        method: 'POST',
+        url: 'prescription/getHistogramEvalCompactness',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(data){
+        $scope.res2 = JSON.parse(JSON.stringify(data));
+        coordinates2 = $scope.res2;
+        $scope.options2 = getChartOptions("Beat");
+        $scope.data2 = getChartData_eval(coordinates2);
         console.log("update clicked");
     });
 
@@ -242,45 +266,16 @@ function getChartData(){
     }];
 }
 
-/*function getChartData(){
-    return [
-        {
-            key: "Cumulative Return",
-            values: [
-                {
-                    "label": "A",
-                    "value": -29.765957771107
-                },
-                {
-                    "label": "B",
-                    "value": 0
-                },
-                {
-                    "label": "C",
-                    "value": 32.807804682612
-                },
-                {
-                    "label": "D",
-                    "value": 196.45946739256
-                },
-                {
-                    "label": "E",
-                    "value": 0.19434030906893
-                },
-                {
-                    "label": "F",
-                    "value": -98.079782601442
-                },
-                {
-                    "label": "G",
-                    "value": -13.925743130903
-                },
-                {
-                    "label": "H",
-                    "value": -5.1387322875705
-                }
-            ]
-        }
-    ]
-}*/
-
+function getChartData_eval(coordinateList){
+    var result = [];
+    for (var i = 0; i < coordinateList.length; i++) {
+        result.push({
+            label: coordinateList[i]['label'],
+            value: coordinateList[i]['frquncy']
+        });
+    }
+    return [{
+        values: result,
+        key: 'My Chart',
+    }];
+}

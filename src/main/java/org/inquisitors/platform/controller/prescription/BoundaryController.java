@@ -30,7 +30,7 @@ public class BoundaryController {
     Gson gson = new Gson();
     @ResponseBody
     @RequestMapping(value="/boundaryPolygons",method = RequestMethod.POST)
-    public String getBoundaryPolygons(@RequestParam("population") String totalPopulation,@RequestParam("nDistricts") String nDistricts){
+    public String getBoundaryPolygons(@RequestParam("population") String totalPopulation,@RequestParam("nDistricts") String nDistricts) throws JSONException {
         return getBoundaryCoordinates(Integer.parseInt(nDistricts),Integer.parseInt(totalPopulation));
     }
     @ResponseBody
@@ -40,7 +40,7 @@ public class BoundaryController {
         return getOriginalBoundaryCoordinates(season,weekdays,weekend,watch,nBeats,Long.parseLong(districtID));
     }
 
-    private String getBoundaryCoordinates(int nDistricts,int population){
+    private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
         vp = new Vizualizer_prescription();
         HashMap map = vp.getRedistrictBoundry(nDistricts,population);
         Iterator i = map.keySet().iterator();
@@ -61,6 +61,14 @@ public class BoundaryController {
             Iterator tractIterator = censusTractMap.iterator();
 
             int cnt =0 ;
+            JSONObject jsonC = new JSONObject();
+            try {
+                jsonC.put("lat",((Cluster)map.get(key)).maxminLatreturn());
+                jsonC.put("lng",((Cluster)map.get(key)).maxminLonreturn());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            jsonMap.put(districtCnt++,jsonC);
             while(tractIterator.hasNext()){
                 JSONObject jsonTract = new JSONObject();
                 CensusTract ct = (CensusTract) tractIterator.next();

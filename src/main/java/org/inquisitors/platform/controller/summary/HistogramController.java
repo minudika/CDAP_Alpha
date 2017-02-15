@@ -71,4 +71,12 @@ public class HistogramController {
         List list = v.evaluateResponseTime();
         return  gson.toJson(list);
     }
+
+    @ResponseBody
+    @RequestMapping(value="/prescription/getHistogramEvalCompactness",method = RequestMethod.POST)
+    public String getHistogramEvalCompacness() throws IOException, JSONException {
+        Vizualizer_prescription v = new Vizualizer_prescription();
+        List list = v.evaluateResponseTime();
+        return  gson.toJson(list);
+    }
 }
