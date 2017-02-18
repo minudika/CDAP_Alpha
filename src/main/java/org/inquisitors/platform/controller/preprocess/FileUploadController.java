@@ -23,4 +23,10 @@ public class FileUploadController {
         Preprocessor.process(tableName);
         return gson.toJson("Preprocess Success");
     }
+
+    @ResponseBody
+    @RequestMapping(value="/preprocess/getState",method = RequestMethod.POST)
+    public int getSelectedFile() throws IOException, JSONException, InterruptedException {
+        return Preprocessor.getVisualizer().getState();
+    }
 }

@@ -3,7 +3,8 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
   $scope.isFileAvailable = false;
   $scope.message  = "";
   var polygons = [];
-  var colors = ["#ff0000","#ffec00","#00d116","#007bd1","#c100d1","#02f4f8","#ff7400","#1300ff","#ff7abe","#003605"];
+  var colors = ["#6dff00","#ff0000","#ff8800","#fff200","#00ffd3","#0090ff","#0100b1","#c600c3",
+    "#ff54a8","#398400","#e9b4ce","#2dff83","#bea200","#001d26"];
   var map = new google.maps.Map(document.getElementById('map1'), {
     center: {lat: 37.77419580, lng: -122.44778840},
     zoom: 13
@@ -30,8 +31,13 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
       var id=0;
       for(var j=0;j<result["myArrayList"].length;j=j+3){
         //var color = getRandomColor(id);
-        color = colors[id];
-        id++;
+        if(nDistricts > colors.length){
+          color = getRandomColor();
+        }
+        else {
+          color = colors[id];
+          id++;
+        }
         var clusterID = result["myArrayList"][j+2];
         var latTmp1 = result["myArrayList"][j]["map"]["lat"];
         var lngTmp1 = result["myArrayList"][j]["map"]["lng"];

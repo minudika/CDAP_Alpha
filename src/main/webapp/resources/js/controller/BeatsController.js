@@ -1,6 +1,7 @@
 app.controller('BeatsController',['$scope','$http',function($scope,$http){
   var heatmap;
-  var colors = ["#ff0000","#ffec00","#00d116","#007bd1","#c100d1","#02f4f8","#ff7400","#1300ff","#ff7abe","#003605"];
+  var colors = ["#6dff00","#ff0000","#ff8800","#fff200","#00ffd3","#0090ff","#0100b1","#c600c3",
+    "#ff54a8","#398400","#e9b4ce","#2dff83","#bea200","#001d26"];
 
   $scope.isFileAvailable = false;
   $scope.message  = "";
@@ -43,8 +44,14 @@ app.controller('BeatsController',['$scope','$http',function($scope,$http){
     }).success(function(result){
       $scope.message  = "";
       var id=0;
+      var color;
       for(var j=0;j<result["myArrayList"].length;j++){
-        var color = getRandomColor();
+        if(nBeats > colors.length) {
+          color = getRandomColor();
+        }
+        else{
+          color = colors[id++];
+        }
         for(var k=0;k<result["myArrayList"][j]["myArrayList"].length;k++){
 
           var latTmp =  result["myArrayList"][j]["myArrayList"][k]["map"][0]["myArrayList"];

@@ -3,7 +3,6 @@ package org.inquisitors.platform.controller.summary;
 
 import com.google.gson.Gson;
 import org.abithana.frontConnector.Visualizer;
-import org.abithana.frontConnector.Vizualizer_prescription;
 import org.inquisitors.platform.model.Preprocessor;
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
@@ -64,19 +63,4 @@ public class HistogramController {
         return  gson.toJson(list);
     }
 
-    @ResponseBody
-    @RequestMapping(value="/prescription/getHistogramResultsForBeats",method = RequestMethod.POST)
-    public String getHistogramResultsDate() throws IOException, JSONException {
-        Vizualizer_prescription v = new Vizualizer_prescription();
-        List list = v.evaluateResponseTime();
-        return  gson.toJson(list);
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/prescription/getHistogramEvalCompactness",method = RequestMethod.POST)
-    public String getHistogramEvalCompacness() throws IOException, JSONException {
-        Vizualizer_prescription v = new Vizualizer_prescription();
-        List list = v.evaluateResponseTime();
-        return  gson.toJson(list);
-    }
 }

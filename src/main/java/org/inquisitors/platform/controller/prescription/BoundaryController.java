@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +30,7 @@ import java.util.List;
 @Controller
 public class BoundaryController {
     List<HistogramBean> clusterPopulationList;
-    Vizualizer_prescription vp;
+    Vizualizer_prescription vp = new Vizualizer_prescription();
     Gson gson = new Gson();
     @ResponseBody
     @RequestMapping(value="/boundaryPolygons",method = RequestMethod.POST)
@@ -49,8 +50,29 @@ public class BoundaryController {
         return gson.toJson(clusterPopulationList);
     }
 
+    @ResponseBody
+    @RequestMapping(value="/prescription/getHistogramResultsForBeats",method = RequestMethod.POST)
+    public String getHistogramResultsDate() throws IOException, JSONException {
+        List list = vp.evaluateResponseTime();
+        return  gson.toJson(list);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/prescription/getHistogramEvalCompactness",method = RequestMethod.POST)
+    public String getHistogramEvalCompacness() throws IOException, JSONException {
+        List list = vp.evaluateResponseTime();
+        return  gson.toJson(list);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/prescription/getState",method = RequestMethod.POST)
+    public int getState() throws IOException, JSONException {
+        return vp.getState();
+    }
+
+
     private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
-        vp = new Vizualizer_prescription();
+        //vp = new Vizualizer_prescription();
         HashMap map = vp.getRedistrictBoundry(nDistricts,population);
         Iterator i = map.keySet().iterator();
 
@@ -149,7 +171,6 @@ public class BoundaryController {
                     }
                 }
             }
-
             try {
                 //jsonMap.put(Integer.toString(districtCnt),jsonTract);
                 jsonMap.put(districtCnt++,jsonCluster);
