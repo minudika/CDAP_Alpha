@@ -1,5 +1,7 @@
 app.controller('BeatsController',['$scope','$http',function($scope,$http){
   var heatmap;
+  var seedCoordinates = [];
+  var seedMarkers = [];
   var colors = ["#6dff00","#ff0000","#ff8800","#fff200","#00ffd3","#0090ff","#0100b1","#c600c3",
     "#ff54a8","#398400","#e9b4ce","#2dff83","#bea200","#001d26"];
 
@@ -15,6 +17,9 @@ app.controller('BeatsController',['$scope','$http',function($scope,$http){
     //data: getPoints(),
     map: map
   });
+
+
+
 
 
 
@@ -78,6 +83,31 @@ app.controller('BeatsController',['$scope','$http',function($scope,$http){
         //polygons.push(polygon);
       }
     });
+
+
+    /*request seed points*/
+    queryObj = {'districtID':districtID,'nBeats':nBeats, 'season': season,'weekdays' : weekdaysSelected, 'weekend' : weekendSelected,'watch':watch};
+    $http({
+      method: 'POST',
+      data : Object.toParams(queryObj),
+      url: 'prescription/getBeatsSeedPoints',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(result){
+      if(data != "null") {
+        $scope.seeds = JSON.parse(JSON.stringify(data));
+        seedCoordinates = $scope.seeds;
+        for(var i=0;i<seedCoordinates.length;i++){
+          var marker = new google.maps.Marker({
+            position: { lat: seedCoordinates[i]['y'], lng: seedCoordinates[i]['x'] },
+            label: i+1,
+            map: map
+          });
+          //locations.push(new google.maps.LatLng(coordinates[i]['x'], coordinates[i]['y']));
+        }
+        heatmap.setData(getPoints());
+      }
+    });
+    /*********************/
 
     queryObj = {'startYear': 2010, 'endYear': 2015}
 

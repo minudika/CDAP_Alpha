@@ -6,6 +6,7 @@ import org.abithana.frontConnector.Vizualizer_prescription;
 import org.abithana.prescription.beans.CensusBlock;
 import org.abithana.prescription.impl.Redistricting.CensusTract;
 import org.abithana.prescription.impl.Redistricting.Cluster;
+import org.abithana.prescription.impl.Redistricting.DistrictBoundryDefiner;
 import org.abithana.prescription.impl.patrolBeats.ClusterPatrol;
 import org.abithana.statBeans.HistogramBean;
 import org.json.JSONArray;
@@ -30,12 +31,17 @@ import java.util.List;
 @Controller
 public class BoundaryController {
     List<HistogramBean> clusterPopulationList;
+
     Vizualizer_prescription vp = new Vizualizer_prescription();
     Gson gson = new Gson();
+    int nDistricts = 0;
+    int population = 0;
     @ResponseBody
     @RequestMapping(value="/boundaryPolygons",method = RequestMethod.POST)
     public String getBoundaryPolygons(@RequestParam("population") String totalPopulation,@RequestParam("nDistricts") String nDistricts) throws JSONException {
-        return getBoundaryCoordinates(Integer.parseInt(nDistricts),Integer.parseInt(totalPopulation));
+        this.nDistricts = Integer.parseInt(nDistricts);
+        this.population = Integer.parseInt(totalPopulation);
+        return getBoundaryCoordinates(this.nDistricts,this.population);
     }
     @ResponseBody
     @RequestMapping(value="/originalBoundaryPolygons",method = RequestMethod.POST)
@@ -70,12 +76,20 @@ public class BoundaryController {
         return vp.getState();
     }
 
+    @ResponseBody
+    @RequestMapping(value="/prescription/getBeatsSeedPoints",method = RequestMethod.POST)
+    public String getDSeedpoints() throws IOException, JSONException {
+        DistrictBoundryDefiner dbd = new DistrictBoundryDefiner(nDistricts,population);
+        dbd.getSeedClusters();
+        return null;
+
+    }
+
 
     private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
         //vp = new Vizualizer_prescription();
         HashMap map = vp.getRedistrictBoundry(nDistricts,population);
         Iterator i = map.keySet().iterator();
-
         //JSONObject jsonMap = new JSONObject();
         JSONArray jsonMap = new JSONArray();
         clusterPopulationList = new ArrayList<HistogramBean>();
