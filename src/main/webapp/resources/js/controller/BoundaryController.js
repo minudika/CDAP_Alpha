@@ -76,7 +76,7 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
             strokeOpacity: 0.4,
             strokeWeight: 1,
             fillColor: color,
-            fillOpacity: 0.8,
+            fillOpacity: 0.5,
             label:'sdfsdf',
           });
           polygon.setMap(map);
@@ -84,6 +84,10 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
         //polygons.push(polygon);
       }
     });
+
+
+
+
 /*
     $http({
       method: 'POST',
@@ -120,6 +124,72 @@ app.controller('BoundaryController',['$scope','$http',function($scope,$http){
         //polygons.push(polygon);
       }
     });*/
+  }
+
+  $scope.showSeeds = function(){
+    $http({
+      method: 'POST',
+      data : Object.toParams(queryObj1),
+      url: '/prescription/getBoundarySeedPoints',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(result){
+      $scope.message  = "";
+      var id=0;
+      for(var j=0;j<result["myArrayList"].length;j=j+2){
+        //var color = getRandomColor(id);
+        if(nDistricts > colors.length){
+          color = getRandomColor();
+        }
+        else {
+          color = colors[id];
+          id++;
+        }
+        /*var clusterID = result["myArrayList"][j+2];
+        var latTmp1 = result["myArrayList"][j]["map"]["lat"];
+        var lngTmp1 = result["myArrayList"][j]["map"]["lng"];
+
+        var polygonCoordinates1 = [];
+
+        for(var i=0;i<latTmp1.length;i++){
+          polygonCoordinates1.push({lat:latTmp1[i],lng:lngTmp1[i]});
+        }
+
+        var polygon = new google.maps.Polygon({
+          paths: polygonCoordinates1,
+          strokeColor: color,
+          strokeOpacity: 0,
+          strokeWeight: 3,
+          fillColor: color,
+          fillOpacity: 0,
+          label:'sdfsdf',
+        });
+        polygon.setMap(map);*/
+
+        for(var k=0;k<result["myArrayList"][j+1]["myArrayList"].length;k++){
+
+          var latTmp =  result["myArrayList"][j+1]["myArrayList"][k]["map"][0]["myArrayList"];
+          var lngTmp =  result["myArrayList"][j+1]["myArrayList"][k]["map"][1]["myArrayList"];
+
+          var polygonCoordinates = [];
+
+          for(var i=0;i<latTmp.length;i++){
+            polygonCoordinates.push({lat:latTmp[i],lng:lngTmp[i]});
+          }
+
+          var polygon = new google.maps.Polygon({
+            paths: polygonCoordinates,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1,
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 1,
+            label:'sdfsdf',
+          });
+          polygon.setMap(map2);
+        }
+        //polygons.push(polygon);
+      }
+    });
   }
 
 

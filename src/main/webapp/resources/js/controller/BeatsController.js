@@ -89,7 +89,6 @@ app.controller('BeatsController',['$scope','$http',function($scope,$http){
     queryObj = {'districtID':districtID,'nBeats':nBeats, 'season': season,'weekdays' : weekdaysSelected, 'weekend' : weekendSelected,'watch':watch};
     $http({
       method: 'POST',
-      data : Object.toParams(queryObj),
       url: 'prescription/getBeatsSeedPoints',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(result){

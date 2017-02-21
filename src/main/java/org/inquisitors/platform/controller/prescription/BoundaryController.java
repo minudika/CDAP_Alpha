@@ -8,6 +8,7 @@ import org.abithana.prescription.impl.Redistricting.CensusTract;
 import org.abithana.prescription.impl.Redistricting.Cluster;
 import org.abithana.prescription.impl.Redistricting.DistrictBoundryDefiner;
 import org.abithana.prescription.impl.patrolBeats.ClusterPatrol;
+import org.abithana.statBeans.CordinateBean;
 import org.abithana.statBeans.HistogramBean;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,9 @@ import java.util.List;
 @Controller
 public class BoundaryController {
     List<HistogramBean> clusterPopulationList;
+    List<CordinateBean> seedpoints;
+    List<Integer> clusterIds;
+    DistrictBoundryDefiner dbd;
 
     Vizualizer_prescription vp = new Vizualizer_prescription();
     Gson gson = new Gson();
@@ -79,20 +83,30 @@ public class BoundaryController {
     @ResponseBody
     @RequestMapping(value="/prescription/getBeatsSeedPoints",method = RequestMethod.POST)
     public String getDSeedpoints() throws IOException, JSONException {
-        DistrictBoundryDefiner dbd = new DistrictBoundryDefiner(nDistricts,population);
-        dbd.getSeedClusters();
-        return null;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ids",vp.getPatrolSeedPointsID());
+        jsonObject.put("coordinates",vp.getPatrolSeedPoints());
 
+        return gson.toJson(jsonObject);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/prescription/getBoundarySeedPoints",method = RequestMethod.POST)
+    public String getBSeedpoints(@RequestParam("population") String totalPopulation,@RequestParam("nDistricts") String nDistricts) throws IOException, JSONException {
+        return getSeedpointCoordinates(Integer.parseInt(nDistricts),Integer.parseInt(totalPopulation));
     }
 
 
-    private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
+    private String getSeedpointCoordinates(int nDistricts,int population) throws JSONException {
         //vp = new Vizualizer_prescription();
-        HashMap map = vp.getRedistrictBoundry(nDistricts,population);
+        HashMap map = vp.getBoundarySeedClusterMap();
         Iterator i = map.keySet().iterator();
         //JSONObject jsonMap = new JSONObject();
         JSONArray jsonMap = new JSONArray();
         clusterPopulationList = new ArrayList<HistogramBean>();
+        seedpoints = new ArrayList<CordinateBean>();
+        clusterIds = new ArrayList<Integer>();
+        CordinateBean cordinateBean;
 
         int x=0;
         int districtCnt = 0;
@@ -105,6 +119,64 @@ public class BoundaryController {
             Cluster cluster = ((Cluster)map.get(key));
             HashSet censusTractMap = (HashSet) cluster.cencusTracts;
             Long clusterID = cluster.getClusterId();
+
+            //HistogramBean hBean = new HistogramBean(Long.toString(clusterID),cluster.getPopulation());
+            //clusterPopulationList.add(hBean);
+            Iterator tractIterator = censusTractMap.iterator();
+
+            int cnt =0 ;
+            while(tractIterator.hasNext()){
+                JSONObject jsonTract = new JSONObject();
+                CensusTract ct = (CensusTract) tractIterator.next();
+                ArrayList latList = ct.getPolygonLatPoints();
+                ArrayList lngList = ct.getPolygonLonPoints();
+
+                try {
+                    jsonTract.put("0",latList);
+                    jsonTract.put("1",lngList);
+                    jsonCluster.put(cnt++,jsonTract);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                //jsonMap.put(Integer.toString(districtCnt),jsonTract);
+                jsonMap.put(districtCnt++,clusterID);
+                jsonMap.put(districtCnt++,jsonCluster);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Gson gson = new Gson();
+        return gson.toJson(jsonMap);
+    }
+
+    private String getBoundaryCoordinates(int nDistricts,int population) throws JSONException {
+        //vp = new Vizualizer_prescription();
+        dbd = new DistrictBoundryDefiner(nDistricts,population);
+        HashMap map = vp.getRedistrictBoundry(nDistricts,population);
+        Iterator i = map.keySet().iterator();
+        //JSONObject jsonMap = new JSONObject();
+        JSONArray jsonMap = new JSONArray();
+        clusterPopulationList = new ArrayList<HistogramBean>();
+        seedpoints = new ArrayList<CordinateBean>();
+        clusterIds = new ArrayList<Integer>();
+        CordinateBean cordinateBean;
+
+        int x=0;
+        int districtCnt = 0;
+        while (i.hasNext()){
+            x++;
+            //JSONObject jsonCluster = new JSONObject();
+            JSONArray jsonCluster = new JSONArray();
+            long key = (long) i.next();
+            //ArrayList list = (ArrayList) map.get(key);
+            Cluster cluster = ((Cluster)map.get(key));
+            HashSet censusTractMap = (HashSet) cluster.cencusTracts;
+            Long clusterID = cluster.getClusterId();
+
             HistogramBean hBean = new HistogramBean(Long.toString(clusterID),cluster.getPopulation());
             clusterPopulationList.add(hBean);
             Iterator tractIterator = censusTractMap.iterator();
@@ -198,3 +270,4 @@ public class BoundaryController {
 
 
 }
+
